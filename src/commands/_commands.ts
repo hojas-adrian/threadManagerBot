@@ -1,8 +1,14 @@
 import { Composer } from "../../deps.ts";
 import { MyContext } from "../helpers/context.ts";
-import { ban, channel, hear, kick, mute, pin, unchannel } from "./_siwtcher.ts";
-
-import { commands } from "../helpers/commands.ts";
+import { checkTopicCommand } from "../composers/warnings.ts";
+import channelHandler from "./handlerChannel.ts";
+import unchannelHandler from "./handlerUnchannel.ts";
+import hearHandler from "./handlerHear.ts";
+import unHearHandler from "./handlerUnhear.ts";
+import banHandler from "./handlerBan.ts";
+import muteHandler from "./handlerMute.ts";
+import kickHandler from "./handlerKick.ts";
+import pinHandler from "./handlerPin.ts";
 
 const composer = new Composer<MyContext>();
 
@@ -11,14 +17,17 @@ composer
   .command("help", async (ctx) => await ctx.reply("help"))
   .command("settings", async (ctx) => await ctx.reply("settings"));
 
-composer.command("channel").use(channel);
-composer.command("unchannel").use(unchannel);
-composer.command("hear").use(hear);
+composer.command("channel", checkTopicCommand, channelHandler);
+composer.command("unchannel", checkTopicCommand, unchannelHandler);
+composer.command("hear", checkTopicCommand, hearHandler);
+composer.command("unhear", checkTopicCommand, unHearHandler);
+
+composer.command("new", checkTopicCommand, (ctx) => ctx.reply("textp"));
 
 composer.filter((ctx) => ctx.session.adminRol)
-  .command(commands.ban.trigger).use(ban)
-  .command(commands.mute.trigger).use(mute)
-  .command("kick").use(kick)
-  .command("pin").use(pin);
+  .command("ban", banHandler)
+  .command("mute", muteHandler)
+  .command("kick", kickHandler)
+  .command("pin", pinHandler);
 
 export default composer;

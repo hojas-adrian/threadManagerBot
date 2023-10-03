@@ -6,6 +6,8 @@ export {
   Bot,
   Composer,
   Context,
+  GrammyError,
+  HttpError,
   type NextFunction,
   session,
   type SessionFlavor,
