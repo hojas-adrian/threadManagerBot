@@ -1,7 +1,15 @@
-import { Composer } from "../../deps.ts";
+import { MyContext } from "../helpers/context.ts";
+import { send } from "../helpers/utils.ts";
 
-const composer = new Composer();
+export default (ctx: MyContext) => {
+  const channelId = ctx.message?.message_thread_id;
+  const channel = channelId &&
+    ctx.session.threads[channelId];
 
-composer.use(async (ctx) => await ctx.reply("reenvio"));
-
-export default composer;
+  if (channel) {
+    channel.forEach(async (threadId) => {
+      const post = await send(ctx, threadId);
+      await ctx.pinChatMessage(post.message_id);
+    });
+  }
+};

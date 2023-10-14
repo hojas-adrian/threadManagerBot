@@ -5,6 +5,7 @@ import channelHandler from "./handlerChannel.ts";
 import unchannelHandler from "./handlerUnchannel.ts";
 import hearHandler from "./handlerHear.ts";
 import unHearHandler from "./handlerUnhear.ts";
+import infoHandler from "./handlerInfo.ts";
 import banHandler from "./handlerBan.ts";
 import muteHandler from "./handlerMute.ts";
 import kickHandler from "./handlerKick.ts";
@@ -21,6 +22,7 @@ composer.command("channel", checkTopicCommand, channelHandler);
 composer.command("unchannel", checkTopicCommand, unchannelHandler);
 composer.command("hear", checkTopicCommand, hearHandler);
 composer.command("unhear", checkTopicCommand, unHearHandler);
+composer.command("info", checkTopicCommand, infoHandler);
 
 composer.command("new", checkTopicCommand, (ctx) => ctx.reply("textp"));
 

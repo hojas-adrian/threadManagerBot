@@ -1,2 +1,5 @@
 .env
 play.ts
+*.yml
+Dockerfile.bot
+Dockerfile.bot-api

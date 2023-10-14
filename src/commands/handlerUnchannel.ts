@@ -10,7 +10,7 @@ const matchOne = (ctx: MyContext, chat: string): string => {
     return "no extiste el chat";
   }
   currentThread && currentThread.splice(chatIndex, 1);
-  return "el chat ya se agrego";
+  return "el chat se elimino";
 };
 
 export default (ctx: MyContext) => {

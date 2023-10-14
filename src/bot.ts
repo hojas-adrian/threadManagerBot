@@ -1,25 +1,20 @@
-import {
-  autoRetry,
-  Bot,
-  GrammyError,
-  HttpError,
-  load,
-  session,
-} from "../deps.ts";
+import { Bot, GrammyError, HttpError, load, session } from "../deps.ts";
 import { getSessionKey, initial } from "./helpers/session.ts";
 import commands from "./commands/_commands.ts";
 import forward from "./composers/forward.ts";
 import { MyContext } from "./helpers/context.ts";
 
 const env = await load();
-const bot = new Bot<MyContext>(env["BOT_TOKEN"]);
+export const bot = new Bot<MyContext>(
+  Deno.env.get("BOT_TOKEN") || env["BOT_TOKEN"],
+);
 
-bot.api.config.use(autoRetry());
 bot.use(session({
   getSessionKey,
   initial,
 }));
 
+bot.command("session", (ctx) => console.log(ctx.session.threads));
 bot.use(commands);
 bot.use(forward);
 
@@ -33,5 +28,3 @@ bot.catch(({ ctx, error }) => {
     console.error("Unknown error:", error);
   }
 });
-
-bot.start();

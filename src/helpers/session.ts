@@ -1,7 +1,7 @@
 import { Context } from "../../deps.ts";
 
 export interface SessionData {
-  threads: { [key: number]: number[] };
+  threads: { [key: number | string]: number[] };
   adminRol: boolean;
 }
 

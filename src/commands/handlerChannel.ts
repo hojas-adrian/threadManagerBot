@@ -34,7 +34,6 @@ const matchOne = async (
 
     //no existe el chat
     (!currentThread) && (ctx.session.threads[channelId] = []);
-
     ctx.session.threads[channelId].push(chatId);
 
     return "el chat ya se agrego";
