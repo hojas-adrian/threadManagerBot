@@ -1,6 +1,6 @@
 import { Bot, GrammyError, HttpError, load, session } from "../deps.ts";
 import { getSessionKey, initial } from "./helpers/session.ts";
-import commands from "./commands/_commands.ts";
+import commands from "./composers/commands.ts";
 import forward from "./composers/forward.ts";
 import { MyContext } from "./helpers/context.ts";
 
@@ -14,7 +14,6 @@ bot.use(session({
   initial,
 }));
 
-bot.command("session", (ctx) => console.log(ctx.session.threads));
 bot.use(commands);
 bot.use(forward);
 
