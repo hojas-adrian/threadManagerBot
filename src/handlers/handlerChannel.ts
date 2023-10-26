@@ -1,6 +1,6 @@
 import { MyContext } from "../helpers/context.ts";
 
-const matchOne = async (
+const addChanel = async (
   ctx: MyContext,
   chat: string,
 ): Promise<string> => {
@@ -43,7 +43,7 @@ const matchOne = async (
   }
 };
 
-const matchEmpty = (ctx: MyContext): string => {
+const addChanelToGeneral = (ctx: MyContext): string => {
   const channelId = ctx.message?.message_thread_id || NaN;
   const currentThread = channelId &&
     ctx.session.threads[channelId];
@@ -67,12 +67,12 @@ export default async (ctx: MyContext) => {
     return;
   }
   if (ctx.match) {
-    const chats = ctx.match;
-    (typeof chats == "string" && chats.length === 1)
-      ? output = await matchOne(ctx, chats[0])
+    const chats = ctx.match.toString();
+    chats.length === 1
+      ? output = await addChanel(ctx, chats[0])
       : output = "no puedo manejar multiples argumentos";
   } else {
-    output = matchEmpty(ctx);
+    output = addChanelToGeneral(ctx);
   }
   ctx.reply(output, {
     reply_to_message_id: ctx.message?.message_id,

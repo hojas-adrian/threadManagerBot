@@ -1,4 +1,5 @@
 .env
+.VSCodeCounter
 play.ts
 *.yml
 Dockerfile.bot

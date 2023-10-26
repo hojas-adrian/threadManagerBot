@@ -2,8 +2,7 @@ import { MyContext } from "../helpers/context.ts";
 import { action } from "../helpers/utils.ts";
 
 export default async (ctx: MyContext) => {
-  const user = ctx.message?.reply_to_message?.from?.id || NaN;
-
-  await ctx.banChatMember(user);
-  action(ctx, "ban");
+  ctx.reply(await action(ctx, "ban"), {
+    reply_to_message_id: ctx.message?.message_id,
+  });
 };
