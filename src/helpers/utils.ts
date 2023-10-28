@@ -1,4 +1,5 @@
 import { MyContext } from "./context.ts";
+import { Chat } from "https://deno.land/x/grammy_types@v3.2.0/manage.ts";
 
 export const getLink = (ctx: MyContext, threadId: number) => {
   const chatId = ctx.chat?.id || NaN;
@@ -10,6 +11,19 @@ export const getLink = (ctx: MyContext, threadId: number) => {
 
 export const send = async (ctx: MyContext, threadId: number) => {
   const chatId = ctx.chat?.id || NaN;
+  const text = ctx.message?.text;
+
+  if (text) {
+    const output = `\n${text}`;
+
+    return await ctx.api.sendMessage(
+      (ctx.chat as Chat).id,
+      `${output.length > 230 ? output : `${output.slice(0, 230 - 3)}...`}`,
+      {
+        ...(threadId !== 1 && { message_thread_id: threadId }),
+      },
+    );
+  }
 
   return await ctx.forwardMessage(chatId, {
     ...(threadId !== 1 && { message_thread_id: threadId }),
@@ -48,7 +62,11 @@ export const action = async (
     unmute: {
       actionText: "desilenciado",
       async fn(userId: number) {
-        await ctx.restrictChatMember(userId, { can_send_messages: true });
+        await ctx.restrictChatMember(userId, {
+          can_send_messages: true,
+        }, {
+          use_independent_chat_permissions: false,
+        });
       },
     },
     kick: {
